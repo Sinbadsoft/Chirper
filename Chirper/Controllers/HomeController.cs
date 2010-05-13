@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Friends.Controllers
+namespace JavaGeneration.Chirper.Controllers
 {
     [HandleError]
     public class HomeController : Controller

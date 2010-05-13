@@ -1,6 +1,6 @@
 using HectorSharp;
 
-namespace Friends
+namespace JavaGeneration.Chirper
 {
     public class CassandraClients
     {

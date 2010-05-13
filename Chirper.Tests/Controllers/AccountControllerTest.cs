@@ -128,7 +128,7 @@ namespace Friends.Tests.Tests.Controllers
         public void ConstructorSetsProperties()
         {
             // Arrange
-            IFormsAuthentication formsAuth = new MockFormsAuthenticationService();
+            IAuthentificationService formsAuth = new MockFormsAuthenticationService();
             IMembershipService membershipService = new AccountMembershipService();
 
             // Act
@@ -356,7 +356,7 @@ namespace Friends.Tests.Tests.Controllers
 
         private static AccountController GetAccountController()
         {
-            IFormsAuthentication formsAuth = new MockFormsAuthenticationService();
+            IAuthentificationService formsAuth = new MockFormsAuthenticationService();
             MembershipProvider membershipProvider = new MockMembershipProvider();
             AccountMembershipService membershipService = new AccountMembershipService(membershipProvider);
             AccountController controller = new AccountController(formsAuth, membershipService);
@@ -365,13 +365,13 @@ namespace Friends.Tests.Tests.Controllers
             return controller;
         }
 
-        public class MockFormsAuthenticationService : IFormsAuthentication
+        public class MockFormsAuthenticationService : IAuthentificationService
         {
             public void SignIn(string userName, bool createPersistentCookie)
             {
             }
 
-            public void SignOut()
+            public void SignOut(string userName)
             {
             }
         }
