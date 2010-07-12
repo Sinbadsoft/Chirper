@@ -1,16 +1,16 @@
-using HectorSharp;
-
 namespace JavaGeneration.Chirper
 {
-    public class CassandraClients
-    {
-        internal static KeyedCassandraClientFactory Factory { get; set; }
-        
-        internal static Endpoint Endpoint { get; set; }
+  using HectorSharp;
 
-        public static ICassandraClient Make()
-        {
-            return Factory.Make(Endpoint);
-        }
+  public static class CassandraClients
+  {
+    internal static KeyedCassandraClientFactory Factory { get; set; }
+
+    internal static Endpoint Endpoint { get; set; }
+
+    public static ICassandraClient Make()
+    {
+      return Factory.Make(Endpoint);
     }
+  }
 }
