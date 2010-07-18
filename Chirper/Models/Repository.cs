@@ -2,24 +2,28 @@ namespace JavaGeneration.Chirper.Models
 {
   using System;
   using System.Collections.Generic;
-  using HectorSharp;
+  using Aquiles.Model;
+
 
   public class Repository : IRepository
   {
-    private static readonly ColumnParent TimeLineFamilyPath = new ColumnParent("TimeLine");
-    private static readonly ColumnParent UserLineFamilyPath = new ColumnParent("UserLine");
-    private static readonly ColumnParent FollowingFamilyPath = new ColumnParent("Following");
-    private static readonly ColumnParent FollowersFamilyPath = new ColumnParent("Followers");
+    private const string TimeLineFamilyName = "TimeLine";
+    private const string UserLineFamilyName = "UserLine";
+    private const string FollowingFamilyName = "Following";
+    private const string FollowersFamilyName = "Followers"; 
+    private const string TweetsFamilyName = "Tweets";
+    private const string UsersFamilyName = "Users";
+
     private const int MaxTimelineTweets = 150;
     private const int MaxRelatedUsers = 5000;
     private const string PublicTimeLineUser = "!PUBLIC!";
 
-    public Repository(ICassandraClient client)
+    public Repository()
     {
-      Keysapce = client.GetKeyspace("Chirper");
+      Keysapce = new KeySpace("Cluster", "Chirper");
     }
 
-    public IKeyspace Keysapce { get; set; }
+    internal KeySpace Keysapce { get; set; }
 
     public IList<Tweet> GetPublicTimeLine()
     {
@@ -29,21 +33,21 @@ namespace JavaGeneration.Chirper.Models
     public IList<Tweet> GetTimeLine(string userName)
     {
       return GetUserItems(
-        userName, TimeLineFamilyPath, c => GetTweet(c.Value), MaxTimelineTweets, (x, y) => x.Time.CompareTo(y.Time));
+        userName, TimeLineFamilyName, c => GetTweet(c.Value), MaxTimelineTweets, (x, y) => x.Time.CompareTo(y.Time));
     }
 
     public IList<Tweet> GetUserLine(string userName)
     {
       return GetUserItems(
-        userName, UserLineFamilyPath, c => GetTweet(c.Value), MaxTimelineTweets, (x, y) => x.Time.CompareTo(y.Time));
+        userName, UserLineFamilyName, c => GetTweet(c.Value), MaxTimelineTweets, (x, y) => x.Time.CompareTo(y.Time));
     }
 
     public IList<Following> GetFollowing(string userName)
     {
       return GetUserItems(
         userName,
-        FollowingFamilyPath,
-        c => new Following { User = GetUser(c.Value), Since = TimestampToDate(c.Name) },
+        FollowingFamilyName,
+        c => new Following { User = GetUser(c.ColumnName), Since = TimestampToDate(c.Value) },
         MaxRelatedUsers,
         (f1, f2) => f1.Since.CompareTo(f2.Since));
     }
@@ -52,15 +56,48 @@ namespace JavaGeneration.Chirper.Models
     {
       return GetUserItems(
         userName,
-        FollowersFamilyPath,
-        c => new Follower { User = GetUser(c.Value), Since = TimestampToDate(c.Name) },
+        FollowersFamilyName,
+        c => new Follower { User = GetUser(c.ColumnName), Since = TimestampToDate(c.Value) },
         MaxRelatedUsers,
         (f1, f2) => f1.Since.CompareTo(f2.Since));
     }
 
+    public bool Follow(string follower, string following)
+    {
+      if(string.Equals(follower, following))
+      {
+        return false;
+      }
+
+      var followerUser = GetUser(follower);
+      var followingUser = GetUser(following);
+      if (followerUser == null || followingUser == null)
+      {
+        return false;
+      }
+
+      var followTimestamp = DateToTimestamp(DateTime.UtcNow);
+      if(!Keysapce.Exists(FollowersFamilyName, following, follower))
+      {
+        Keysapce.Insert(FollowersFamilyName, following, follower, followTimestamp);  
+      }
+
+      if (!Keysapce.Exists(FollowingFamilyName, follower, following))
+      {
+        Keysapce.Insert(FollowingFamilyName, follower, following, followTimestamp);
+      }
+
+      return true;
+    }
+
+    public bool UnFollow(string follower, string following)
+    {
+      throw new NotImplementedException();
+    }
+
     public User GetUser(string userName)
     {
-      if (!Keysapce.Exists(userName, UsersFamily.Name))
+      if (!Keysapce.Exists(UsersFamilyName, userName, UsersFamily.Name))
       {
         return null;
       }
@@ -68,32 +105,32 @@ namespace JavaGeneration.Chirper.Models
       return new User
         {
           Name = userName,
-          PasswordHash = Keysapce.GetValueOrEmpty(userName, UsersFamily.PasswordHash),
-          Bio = Keysapce.GetValueOrEmpty(userName, UsersFamily.Bio),
-          DisplayName = Keysapce.GetValueOrEmpty(userName, UsersFamily.DisplayName),
-          Email = Keysapce.GetValueOrEmpty(userName, UsersFamily.Email),
-          Location = Keysapce.GetValueOrEmpty(userName, UsersFamily.Location),
-          Web = Keysapce.GetValueOrEmpty(userName, UsersFamily.Web),
-          CreatedAt = TimestampToDate(Keysapce.GetValueOrEmpty(userName, UsersFamily.CreatedAt))
+          PasswordHash = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.PasswordHash),
+          Bio = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.Bio),
+          DisplayName = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.DisplayName),
+          Email = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.Email),
+          Location = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.Location),
+          Web = Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.Web),
+          CreatedAt = TimestampToDate(Keysapce.GetValue(UsersFamilyName, userName, UsersFamily.CreatedAt))
         };
     }
 
     public Tweet GetTweet(string id)
     {
-      if (!Keysapce.Exists(id, TweetsFamily.Id))
+      if (!Keysapce.Exists(TweetsFamilyName, id, TweetsFamily.Id))
       {
         return null;
       }
 
       return new Tweet
         {
-          Id = id,
-          User = Keysapce.GetValueOrEmpty(id, TweetsFamily.User),
-          InReplyToTweet = Keysapce.GetValueOrEmpty(id, TweetsFamily.InReplyToTweet),
-          InReplyToUser = Keysapce.GetValueOrEmpty(id, TweetsFamily.InReplyToUser),
-          Location = Keysapce.GetValueOrEmpty(id, TweetsFamily.Location),
-          Text = Keysapce.GetValueOrEmpty(id, TweetsFamily.Text),
-          Time = TimestampToDate(Keysapce.GetValueOrEmpty(id, TweetsFamily.Time))
+          Id = id, 
+          User = Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.User) ?? string.Empty,
+          InReplyToTweet = Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.InReplyToTweet) ?? string.Empty,
+          InReplyToUser = Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.InReplyToUser) ?? string.Empty,
+          Location = Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.Location) ?? string.Empty,
+          Text = Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.Text) ?? string.Empty,
+          Time = TimestampToDate(Keysapce.GetValue(TweetsFamilyName, id, TweetsFamily.Time) ?? string.Empty)
         };
     }
 
@@ -101,37 +138,36 @@ namespace JavaGeneration.Chirper.Models
     {
       tweet.Id = Guid.NewGuid().ToString();
       tweet.Time = DateTime.UtcNow;
-      string tweetTimestamp = DateToTimestamp(tweet.Time);
-      Keysapce.Insert(tweet.Id, TweetsFamily.Id, tweet.Id);
-      Keysapce.Insert(tweet.Id, TweetsFamily.Location, tweet.Location);
-      Keysapce.Insert(tweet.Id, TweetsFamily.Text, tweet.Text);
-      Keysapce.Insert(tweet.Id, TweetsFamily.Time, tweetTimestamp);
-      Keysapce.Insert(tweet.Id, TweetsFamily.User, tweet.User);
+      var tweetTimestamp = DateToTimestamp(tweet.Time);
+      Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.Id, tweet.Id);
+      Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.Location, tweet.Location);
+      Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.Text, tweet.Text);
+      Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.Time, tweetTimestamp);
+      Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.User, tweet.User);
       if (!string.IsNullOrEmpty(tweet.InReplyToTweet) && !string.IsNullOrEmpty(tweet.InReplyToUser))
       {
-        Keysapce.Insert(tweet.Id, TweetsFamily.InReplyToTweet, tweet.InReplyToTweet);
-        Keysapce.Insert(tweet.Id, TweetsFamily.InReplyToUser, tweet.InReplyToUser);
+        Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.InReplyToTweet, tweet.InReplyToTweet);
+        Keysapce.Insert(TweetsFamilyName, tweet.Id, TweetsFamily.InReplyToUser, tweet.InReplyToUser);
       }
 
-      Keysapce.Insert(tweet.User, new ColumnPath("UserLine", null, tweetTimestamp), tweet.Id);
-      Keysapce.Insert(tweet.User, new ColumnPath("TimeLine", null, tweetTimestamp), tweet.Id);
-      Keysapce.Insert(PublicTimeLineUser, new ColumnPath("TimeLine", null, tweetTimestamp), tweet.Id);
+      Keysapce.Insert(UserLineFamilyName, tweet.User, tweetTimestamp, tweet.Id);
+      Keysapce.Insert(TimeLineFamilyName, tweet.User, tweetTimestamp, tweet.Id);
+      Keysapce.Insert(TimeLineFamilyName, PublicTimeLineUser, tweetTimestamp, tweet.Id);
 
       foreach (var follower in GetFollowers(tweet.User))
       {
-        Keysapce.Insert(follower.User.Name, new ColumnPath("TimeLine", null, tweetTimestamp), tweet.Id);
+        Keysapce.Insert(TimeLineFamilyName, follower.User.Name, tweetTimestamp, tweet.Id);
       }
     }
 
     public bool AddUser(User user)
     {
-      Column nameColumn;
-      if (Keysapce.TryGetColumn(user.Name, UsersFamily.Name, out nameColumn))
+      if (Keysapce.Exists(UsersFamilyName, user.Name, UsersFamily.Name))
       {
         return false;
       }
 
-      Keysapce.Insert(user.Name, UsersFamily.Name, user.Name);
+      Keysapce.Insert(UsersFamilyName, user.Name, UsersFamily.Name, user.Name);
       user.CreatedAt = DateTime.UtcNow;
       InsertOrUpdateUser(user);
       return true;
@@ -139,8 +175,7 @@ namespace JavaGeneration.Chirper.Models
 
     public bool UpdateUser(User user)
     {
-      Column nameColumn;
-      if (!Keysapce.TryGetColumn(user.Name, UsersFamily.Name, out nameColumn))
+      if (!Keysapce.Exists(UsersFamilyName, user.Name, UsersFamily.Name))
       {
         return false;
       }
@@ -163,27 +198,33 @@ namespace JavaGeneration.Chirper.Models
 
     private void InsertOrUpdateUser(User user)
     {
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.Bio, user.Bio);
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.CreatedAt, DateToTimestamp(user.CreatedAt));
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.DisplayName, user.DisplayName);
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.Email, user.Email);
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.Location, user.Location);
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.Web, user.Web);
-      Keysapce.InsertIfNotNullOrEmpty(user.Name, UsersFamily.PasswordHash, user.PasswordHash);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Bio, user.Bio);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.CreatedAt, DateToTimestamp(user.CreatedAt));
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.DisplayName, user.DisplayName);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Email, user.Email);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Location, user.Location);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Web, user.Web);
+      InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.PasswordHash, user.PasswordHash);
+    }
+
+    private void InsertIfNotNullOrEmpty(string familyName, string key, string columnName, string value)
+    {
+      if (!string.IsNullOrEmpty(value))
+      {
+        Keysapce.Insert(familyName, key, columnName, value);
+      }
     }
 
     private List<T> GetUserItems<T>(
-      string userName, ColumnParent joinFamily, Func<Column, T> getItem, int maxItems, Comparison<T> comparison)
+      string userName,
+      string joinFamily,
+      Converter<AquilesColumn, T> getValueFromColumn,
+      int maxItems, 
+      Comparison<T> comparison)
     {
-      var result = new List<T>();
-      var columns = Keysapce.GetSlice(userName, joinFamily, new SlicePredicate(new SliceRange(false, maxItems)));
-      foreach (var column in columns)
-      {
-        result.Add(getItem(column));
-      }
-
-      result.Sort(comparison);
-      return result;
+      var items = Keysapce.GetSlice(joinFamily, userName, maxItems).ConvertAll(getValueFromColumn);
+      items.Sort(comparison);
+      return items;
     }
   }
 }

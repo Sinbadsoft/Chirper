@@ -6,8 +6,7 @@
   [HandleError]
   public class HomeController : Controller
   {
-    public HomeController()
-      : this(new Repository(CassandraClients.Make()))
+    public HomeController() : this(new Repository())
     {
     }
 
@@ -20,47 +19,33 @@
 
     public ActionResult Index()
     {
-      if (!User.Identity.IsAuthenticated)
-      {
-        return PublicTimeLine();
-      }
-
-      return TimeLine();
+      return !User.Identity.IsAuthenticated ? PublicTimeLine() : TimeLine();
     }
 
     [Authorize]
     public ActionResult TimeLine()
     {
+      ViewData["Title"] = string.Format("{0} Timeline", User.Identity.Name);
       return View("Index", Repository.GetTimeLine(User.Identity.Name));
     }
 
     public ActionResult UserLine(string id)
     {
-      if (string.IsNullOrEmpty(id))
+      User user;
+      var result = GetUser(id, out user);
+      if (result != null)
       {
-        if (User.Identity.IsAuthenticated)
-        {
-          id = User.Identity.Name;
-        }
-        else
-        {
-          return RedirectToAction("LogOn", "Account");
-        }
+        return result;
       }
-
-      var user = Repository.GetUser(id);
-      if (user == null)
-      {
-        return View("Error", string.Format("Unknown user {0}.", id));
-      }
-
+      
+      ViewData["Title"] = string.Format("{0} Userline", user.Name);
       ViewData["User"] = user;
-      return View("Index", Repository.GetUserLine(id));
+      return View("Index", Repository.GetUserLine(user.Name));
     }
 
     public ActionResult PublicTimeLine()
     {
-      ViewData["Public"] = true;
+      ViewData["Title"] = "Public Timeline";
       return View("Index", Repository.GetPublicTimeLine());
     }
 
@@ -69,10 +54,10 @@
       var tweet = Repository.GetTweet(id);
       if (tweet == null)
       {
-        return View("Error", "Unable to load tweet.");
+        return View("Error", new ErrorInfo("Unable to load tweet.", null));
       }
       
-      ViewData["OneTweet"] = true;
+      ViewData["Title"] = "Show Tweet";
       ViewData["User"] = Repository.GetUser(tweet.User);
       return View("Index", new[] { tweet });
     }
@@ -91,6 +76,29 @@
       return TimeLine();
     }
 
+    [Authorize]
+    public ActionResult Follow(string id)
+    {
+      if(!Repository.Follow(User.Identity.Name, id))
+      {
+        return View("Error", new ErrorInfo(string.Format("Unable to follow {0}", id)));
+      }
+
+      return RedirectToAction("Following");
+    }
+
+    public ActionResult Followers(string id)
+    {
+      User user;
+      return GetUser(id, out user) ?? View(Repository.GetFollowers(user.Name));
+    }
+    
+    public ActionResult Following(string id)
+    {
+      User user;
+      return GetUser(id, out user) ?? View(Repository.GetFollowing(user.Name));
+    }
+
     public ActionResult About()
     {
       return View();
@@ -102,6 +110,27 @@
       {
         ViewData["LoggedUser"] = Repository.GetUser(User.Identity.Name);
       }
+    }
+
+    private ActionResult GetUser(string id, out User user)
+    {
+      if (string.IsNullOrEmpty(id))
+      {
+        if (User.Identity.IsAuthenticated)
+        {
+          id = User.Identity.Name;
+        }
+        else
+        {
+          user = null;
+          return RedirectToAction("LogOn", "Account");
+        }
+      }
+
+      user = Repository.GetUser(id);
+      return user == null 
+        ? View("Error", new ErrorInfo(string.Format("Unknown user {0}", id))) 
+        : null;
     }
   }
 }

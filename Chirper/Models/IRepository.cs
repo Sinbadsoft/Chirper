@@ -16,6 +16,10 @@
 
     IList<Follower> GetFollowers(string userName);
 
+    bool Follow(string follower, string following);
+
+    bool UnFollow(string follower, string following);
+
     Tweet GetTweet(string id);
 
     void AddTweet(Tweet tweet);

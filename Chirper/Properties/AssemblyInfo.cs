@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("JavaGeneration.Chirper")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("JavaGeneration")]
+[assembly: AssemblyCompany("Chaker Nakhli")]
 [assembly: AssemblyProduct("JavaGeneration.Chirper")]
-[assembly: AssemblyCopyright("Copyright © JavaGeneration 2010")]
+[assembly: AssemblyCopyright("Copyright © Chaker Nakhli 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("78541f23-5ee2-4022-b83a-06f339d68fff")]
+[assembly: Guid("83bce4ec-d5e3-425a-9fa2-0c4e91b33d4b")]
 
 // Version information for an assembly consists of the following four values:
 //

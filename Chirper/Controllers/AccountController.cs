@@ -1,4 +1,5 @@
-﻿namespace JavaGeneration.Chirper.Controllers
+﻿
+namespace JavaGeneration.Chirper.Controllers
 {
   using System;
   using System.Security.Principal;
@@ -19,7 +20,7 @@
 
     public AccountController(IAuthentificationService authentificationService, Repository repository)
     {
-      Repository = repository ?? new Repository(CassandraClients.Make());
+      Repository = repository ?? new Repository();
       AuthentificationService = authentificationService ?? new AuthentificationService(Repository);
       validator = new AccountInputValidator(ModelState);
     }
@@ -138,7 +139,7 @@
         return View("UpdateProfileSuccess");
       }
 
-      return View("Error", "Error while updating user profile.");
+      return View("Error", new ErrorInfo("Unable to updte user's profile"));
     }
 
     protected override void OnActionExecuting(ActionExecutingContext filterContext)
