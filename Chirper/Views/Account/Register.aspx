@@ -29,8 +29,11 @@
                 <%= Html.Password("confirmPassword") %>
                 <%= Html.ValidationMessage("confirmPassword") %>
             </p>
-            <!-- Profile -->
-            <% Html.RenderPartial("UserProfileControl"); %>
+            <p>    
+                <label for="email">Email:</label>
+                <%= Html.TextBox("email") %>
+                <%= Html.ValidationMessage("email") %>
+            </p>
             <p>
                 <input type="submit" value="Register" />
             </p>

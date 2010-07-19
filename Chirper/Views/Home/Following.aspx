@@ -1,6 +1,7 @@
 <%@ Page Title="" Language="C#" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.IEnumerable<JavaGeneration.Chirper.Models.Following>>" MasterPageFile="~/Views/Shared/Site.Master" %>
 <asp:Content runat="server" ID="Title" ContentPlaceHolderID="TitleContent">Following</asp:Content>
 <asp:Content runat="server" ID="Main" ContentPlaceHolderID="MainContent">
+<h2>Following</h2>
      <table>
         <tr>
             <th>User</th>

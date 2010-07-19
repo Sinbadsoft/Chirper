@@ -27,7 +27,7 @@
                     <li><%= Html.ActionLink("Timeline", "TimeLine", "Home")%></li>
                     <li><%= Html.ActionLink("Userline", "UserLine", "Home")%></li>
                     <li><%= Html.ActionLink("Followers", "Followers", "Home")%></li>
-                    <li><%= Html.ActionLink("Followers", "Following", "Home")%></li>
+                    <li><%= Html.ActionLink("Following", "Following", "Home")%></li>
                     <li><%= Html.ActionLink("Profile", "UpdateProfile", "Account")%></li>
                     <% } %>
                     <li><%= Html.ActionLink("About", "About", "Home")%></li>
