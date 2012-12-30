@@ -1,7 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chirper", "Chirper\Chirper.csproj", "{3CE86BC1-2DB8-45E0-9DC0-90A41B09817E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6517CA13-271F-449E-968F-0E40CE651F16}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,14 +16,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0B85C11A-CE1C-4D76-8E2B-A45F891A1F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B85C11A-CE1C-4D76-8E2B-A45F891A1F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B85C11A-CE1C-4D76-8E2B-A45F891A1F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B85C11A-CE1C-4D76-8E2B-A45F891A1F16}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1F02585-D73B-4831-9487-4C0B7D8EA472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1F02585-D73B-4831-9487-4C0B7D8EA472}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1F02585-D73B-4831-9487-4C0B7D8EA472}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1F02585-D73B-4831-9487-4C0B7D8EA472}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CE86BC1-2DB8-45E0-9DC0-90A41B09817E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3CE86BC1-2DB8-45E0-9DC0-90A41B09817E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CE86BC1-2DB8-45E0-9DC0-90A41B09817E}.Release|Any CPU.ActiveCfg = Release|Any CPU
