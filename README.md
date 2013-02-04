@@ -59,10 +59,10 @@ create column family UserLine with comparator = UTF8Type;
 
 - convert views from Web Forms view engine to Razor view engine (IN PROGRESS)
 - clean up behavior of "In Reply To"
-- integrate Twitter bootstrap presentation framework
-- use Autofac for Dependency Injection
+- integrate Twitter bootstrap presentation framework into this application
+- use something like Autofac for Dependency Injection
 - keep working to clone Twitter using Cassandra and other NoSQL technologies
-- do some analytics using hadoop
+- do some analytics using Hadoop
 
 * Original License: 
 Copyright � Chaker Nakhli 2010
