@@ -1,6 +1,6 @@
 Chirper is a simple twitter clone webapp with a .NET front-end and a nosql back-end based on Cassandra.
 
-http://www.javageneration.com/?p=318
+http://www.sinbadsoft.com/blog/chirper-twitter-clone-webapp-with-net-front-end-and-cassandra-nosql-back-end/
 
 * Dependencies
 - Microsoft .NET 4 Framework
@@ -65,7 +65,7 @@ create column family UserLine with comparator = UTF8Type;
 - do some analytics using hadoop
 
 * Original License: 
-Copyright © Chaker Nakhli 2010
+Copyright ï¿½ Chaker Nakhli 2010
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
 License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
 applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
