@@ -16,6 +16,11 @@
             @Html.TextBox("username")
             @Html.ValidationMessage("username")
         </p>
+        <p>    
+            <label for="email">Email:</label>
+            @Html.TextBox("email")
+            @Html.ValidationMessage("email")
+        </p>
         <p>
             <label for="password">Password:</label>
             @Html.Password("password")
@@ -25,11 +30,6 @@
             <label for="confirmPassword">Confirm password:</label>
             @Html.Password("confirmPassword")
             @Html.ValidationMessage("confirmPassword")
-        </p>
-        <p>    
-            <label for="email">Email:</label>
-            @Html.TextBox("email")
-            @Html.ValidationMessage("email")
         </p>
         <p>
             <input type="submit" value="Register" />
