@@ -1,10 +1,8 @@
 ﻿@model IEnumerable<JavaGeneration.Chirper.Models.Tweet>
 @{
-    //ViewBag.Title = "Public Timeline";
+    ViewBag.Title = Html.Encode(ViewData["Title"]);
 }
 
-
-in the razor view 
 @if (User.Identity.IsAuthenticated)
 {
     using (Html.BeginForm("Tweet", "Home"))
