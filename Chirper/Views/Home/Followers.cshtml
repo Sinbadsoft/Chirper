@@ -1,0 +1,38 @@
+@model IEnumerable<JavaGeneration.Chirper.Models.Follower>
+@{
+    ViewBag.Title = "Followers";
+}
+
+
+<h2>Followers</h2>
+
+<p>These are the people following me</p>
+
+<table>
+    <tr>
+        <th>User</th>
+        <th>Name</th>
+        <th>Bio</th>
+        <th>Since</th>
+    </tr>
+    @if (!Model.Any())
+    {
+        <tr>
+            <td colspan="4">
+                No one is following me
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.ActionLink(item.User.Name, "UserLine", new { id = item.User.Name })</td>
+            <td>@Html.Encode(item.User.DisplayName)</td>
+            <td>@Html.Encode(item.User.Bio)</td>
+            <td>@Html.Encode(string.Format("{0:g}", item.Since))</td>
+        </tr>
+        }
+    }
+</table>

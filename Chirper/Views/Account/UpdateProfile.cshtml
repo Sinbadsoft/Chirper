@@ -1,0 +1,25 @@
+@model JavaGeneration.Chirper.Models.User
+@{
+    ViewBag.Title = "Profile";
+}
+
+<h2>Profile</h2>
+
+@Html.ValidationSummary("Profile update was unsuccessful. Please correct the errors and try again.")
+@using (Html.BeginForm())
+{
+<div>
+    <fieldset>
+        <legend>
+            @Html.Encode(Model.Name)'s Profile
+        </legend>
+        @Html.Partial("UserProfileControl", Model)
+        <p>
+            @Html.ActionLink("Change password", "ChangePassword")
+        </p>
+        <p>
+            <input type="submit" value="Update" />
+        </p>
+    </fieldset>
+</div>        
+}
