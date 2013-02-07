@@ -160,23 +160,23 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Account\ChangePassword.aspx" />
-    <Content Include="Views\Account\ChangePasswordSuccess.aspx" />
-    <Content Include="Views\Account\LogOn.aspx" />
-    <Content Include="Views\Account\Register.aspx" />
-    <Content Include="Views\Account\UpdateProfile.aspx" />
-    <Content Include="Views\Account\UpdateProfileSuccess.aspx" />
+    <None Include="Views\Account\ChangePassword.cshtml" />
+    <None Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <None Include="Views\Account\LogOn.cshtml" />
+    <None Include="Views\Account\Register.cshtml" />
+    <None Include="Views\Account\UpdateProfile.cshtml" />
+    <None Include="Views\Account\UpdateProfileSuccess.cshtml" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Home\About.aspx" />
-    <Content Include="Views\Home\Followers.aspx" />
-    <Content Include="Views\Home\Following.aspx" />
-    <Content Include="Views\Home\Index.aspx" />
+    <None Include="Views\Home\About.cshtml" />
+
+    <None Include="Views\Home\Followers.cshtml" />
+    <None Include="Views\Home\Following.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\Error.aspx" />
-    <Content Include="Views\Shared\LogOnUserControl.ascx" />
-    <Content Include="Views\Shared\UserProfileControl.ascx" />
+    <None Include="Views\Shared\LogOnUserControl.cshtml" />
+    <None Include="Views\Shared\UserProfileControl.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -185,10 +185,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
