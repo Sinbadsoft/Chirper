@@ -1,16 +1,69 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    @RenderBody()
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>@ViewBag.Title</title>
+        @*<link href="~\Content\Site.css" rel="stylesheet" type="text/css" />*@
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+    </head>
+    <body>
+        <div class="page">
+            <div id="header">
+                <div id="title">
+                    <h1>Chirper</h1>
+                </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @RenderSection("scripts", required: false)
-</body>
+                <div id="logindisplay">
+                    @{ Html.RenderPartial("LogOnUserControl"); }
+
+                </div> 
+            
+                <div id="menucontainer">
+            
+                    <ul id="menu">
+                        @*
+                        <li><a href="/Home/PublicTimeLine">Public Timeline</a></li>
+                        <li><a href="/Home/About">About</a></li>
+                        *@
+
+                        <li>
+                            @Html.ActionLink("Public Timeline", "PublicTimeLine", "Home")
+                        </li>
+                        @if (Request.IsAuthenticated) {
+                            <li>
+                                @Html.ActionLink("Timeline", "TimeLine", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Userline", "UserLine", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Followers", "Followers", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Following", "Following", "Home")
+                            </li>
+                            <li>
+                                @Html.ActionLink("Profile", "UpdateProfile", "Account")
+                            </li>
+                        }
+                        <li>
+                            @Html.ActionLink("About", "About", "Home")
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="main">
+                @RenderBody()
+
+                <div id="footer">
+                </div>
+            </div>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

@@ -132,5 +132,15 @@
         ? View("Error", new ErrorInfo(string.Format("Unknown user {0}", id))) 
         : null;
     }
+
+      public ContentResult CurrentUser()
+      {
+          if (User.Identity.IsAuthenticated)
+          {
+              return Content(User.Identity.Name);
+
+          }
+          return Content("Unkown");
+      }
   }
 }
