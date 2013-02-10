@@ -1,0 +1,14 @@
+﻿@if (Request.IsAuthenticated)
+{
+    @:Welcome<b>
+    {
+        Html.RenderAction("CurrentUser", "Home");
+    }
+    @:</b>!
+    <small>[@Html.ActionLink("Log Off", "LogOff", "Account") ]</small>
+}
+else 
+{       
+    @Html.ActionLink("Sign Up!", "Register", "Account")
+    <small>Already registered? [ @Html.ActionLink("Sign In", "LogOn", "Account") ]</small>
+}
