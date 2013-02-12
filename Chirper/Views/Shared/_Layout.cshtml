@@ -2,32 +2,52 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="@Url.Content("~/Content/css/bootstrap.min.css")"  rel="stylesheet" type="text/css"/>
+        <link href="@Url.Content("~/Content/css/bootstrap.responsive.min.css")"  rel="stylesheet" type="text/css"/>
+        <link href="@Url.Content("~/Content/css/font-awesome.css")"  rel="stylesheet" type="text/css"/>
+        <!-- [if IE 7]><link rel="stylesheet" href="@Url.Content("~/Content/css/font-awesome-ie7.css")"><![endif]-->
+
         <title>@ViewBag.Title</title>
-        @*<link href="~\Content\Site.css" rel="stylesheet" type="text/css" />*@
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
     </head>
-    <body>
-        <div class="page">
-            <div id="header">
-                <div id="title">
-                    <h1>Chirper</h1>
+    <body>        
+        <div class="navbar navbar-inverse navbar-top">
+            <div class="navbar-inner">
+                <div class="container">
+                <!--
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    -->
+                    <a class="brand" href="#"><i class="icon-twitter-sign"></i> Chirper</a>
+                    <div class="nav-collapse pull-right">
+                        <ul class="nav">
+                            <li><a href="https://github.com/Sinbadsoft/Chirper"><i class="icon-github-sign"></i> This site on GitHub</a></li>
+                            <li><a href="https://github.com/Sinbadsoft/Chirper/issues"><i class="icon-heart"></i> Report a Bug</a></li>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+        </div>
 
-                <div id="logindisplay">
-                    @{ Html.RenderPartial("LogOnUserControl"); }
+        <div class="page">
+            <div class="hero-unit">
+                <div class="container">
+                    <h2>Chirper: Cassandra Powered Twitter</h2>
+                </div>
+            </div>
 
-                </div> 
-            
-                <div id="menucontainer">
-            
+            <div class="container">
+                <div id="header">
+                    <div id="logindisplay">
+                        @{ Html.RenderPartial("LogOnUserControl"); }
+                    </div> 
+                        
                     <ul id="menu">
-                        @*
-                        <li><a href="/Home/PublicTimeLine">Public Timeline</a></li>
-                        <li><a href="/Home/About">About</a></li>
-                        *@
-
                         <li>
                             @Html.ActionLink("Public Timeline", "PublicTimeLine", "Home")
                         </li>
@@ -53,17 +73,20 @@
                         </li>
                     </ul>
                 </div>
-            </div>
             
-            <div id="main">
-                @RenderBody()
+                <div id="main">
 
-                <div id="footer">
+                    @RenderBody()
+
+                    <div id="footer">
+                    </div>
                 </div>
             </div>
         </div>
+        
 
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
     </body>
 </html>

@@ -12,12 +12,14 @@
             @Html.TextArea("text", string.Empty, 3, 50, new {@class = "tweet-post"})
         </p>
         <p>
-            <input id="tweet" type="submit" value="Tweet" />
+            <input id="tweet" type="submit" value="Chirp" class="btn btn-primary" />
         </p>
     }
 } 
 
+<div class="page-header">
 <h2>@ViewBag.Title</h2>
+</div>
 <table>
     <tr>
         <th>User</th>
