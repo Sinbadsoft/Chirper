@@ -1,6 +1,6 @@
 Chirper
 
-Chirper is a simple twitter clone webapp with a .NET front-end and a Cassandra NoSQL back-end
+Chirper is a simple twitter clone webapp with an .NET ASP.NET MVC 4 powered front-end and a Cassandra NoSQL back-end
 
 http://www.sinbadsoft.com/blog/chirper-twitter-clone-webapp-with-net-front-end-and-cassandra-nosql-back-end/
 
@@ -10,6 +10,7 @@ http://www.sinbadsoft.com/blog/chirper-twitter-clone-webapp-with-net-front-end-a
 - Aquiles 1.0 library
 - DataStax Community Edition
 - NuGet
+- Twitter Bootstrap 2.1.1
 
 * Tested With:
 - DataStax Community Edition 1.1.6 + OpsCenter Community (http://www.datastax.com/products/community)
@@ -59,7 +60,11 @@ create column family UserLine with comparator = UTF8Type;
 
 * Roadmap
 - mimic twitter's layout for showing Tweets
-- assign a permalink to each Chrip
+- stay up to date on Twitter Bootstrap
+- if not already, deploy somewhere publicly
+- add unit tests
+- use an IoC container
+- show assigned permalink to each Chirp
 - allow one user to directly send a private Chirp to another user
 - ReChirp
 - show chirps using relative time
@@ -100,14 +105,4 @@ create column family UserLine with comparator = UTF8Type;
 DONE
 - convert views from Web Forms view engine to Razor view engine (IN PROGRESS)
 - clean up page titles on each Razor view
-
-----------------------------
-From the original README:
-
-* License: 
-Copyright � Chaker Nakhli 2010
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
-License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by
-applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
-governing permissions and limitations under the License. 
+- hook up Twitter Bootstrap to this
