@@ -13,7 +13,10 @@
         <legend>
             @Html.Encode(Model.Name)'s Profile
         </legend>
-        @Html.Partial("UserProfileControl", Model)
+        <div well>
+            @Html.Partial("UserProfileControl", Model)
+        </div>
+        
         <p>
             @Html.ActionLink("Change password", "ChangePassword")
         </p>
