@@ -44,7 +44,10 @@ namespace JavaGeneration.Chirper.Models
         protected IList<Tweet> GetTimeLine(string userName, string type)
         {
             return GetUserItems(
-                userName, type, c => GetTweet(Encoding.ASCII.GetString(c.Column.Value)), MaxTimelineTweets,
+                userName, 
+                type, 
+                c => GetTweet(Encoding.ASCII.GetString(c.Column.Value)),
+                MaxTimelineTweets,
                 (x, y) => x.Time.CompareTo(y.Time));
         }
 
@@ -249,6 +252,7 @@ namespace JavaGeneration.Chirper.Models
         {
             var items = KeySpace.GetSlice(joinFamily, userName, maxItems).ConvertAll(getValueFromColumn);
             items.Sort(comparison);
+            items.Reverse();
             return items;
         }
     }
