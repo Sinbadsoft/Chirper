@@ -33,15 +33,18 @@ namespace JavaGeneration.Chirper.Models
 
         public IList<Tweet> GetTimeLine(string userName)
         {
-            return GetUserItems(
-                userName, TimeLineFamilyName, c => GetTweet(Encoding.ASCII.GetString(c.Column.Value)), MaxTimelineTweets,
-                (x, y) => x.Time.CompareTo(y.Time));
+            return GetTimeLine(userName, TimeLineFamilyName);
         }
 
         public IList<Tweet> GetUserLine(string userName)
         {
+            return GetTimeLine(userName, UserLineFamilyName);
+        }
+
+        protected IList<Tweet> GetTimeLine(string userName, string type)
+        {
             return GetUserItems(
-                userName, UserLineFamilyName, c => GetTweet(Encoding.ASCII.GetString(c.Column.Value)), MaxTimelineTweets,
+                userName, type, c => GetTweet(Encoding.ASCII.GetString(c.Column.Value)), MaxTimelineTweets,
                 (x, y) => x.Time.CompareTo(y.Time));
         }
 
