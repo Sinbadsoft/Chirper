@@ -7,6 +7,7 @@ namespace JavaGeneration.Chirper.Models
     public const string Email = "Email";
     public const string Bio = "Bio";
     public const string DisplayName = "DisplayName";
+    public const string Gender = "Gender";
     public const string Location = "Location";
     public const string Web = "Web";
     public const string CreatedAt = "CreatedAt";

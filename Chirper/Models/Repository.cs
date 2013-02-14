@@ -120,6 +120,7 @@ namespace JavaGeneration.Chirper.Models
             return new User
                        {
                            Name = userName,
+                           Gender = KeySpace.GetValue(UsersFamilyName, userName, UsersFamily.Gender),
                            PasswordHash = KeySpace.GetValue(UsersFamilyName, userName, UsersFamily.PasswordHash),
                            Bio = KeySpace.GetValue(UsersFamilyName, userName, UsersFamily.Bio),
                            DisplayName = KeySpace.GetValue(UsersFamilyName, userName, UsersFamily.DisplayName),
@@ -224,6 +225,7 @@ namespace JavaGeneration.Chirper.Models
             InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Email, user.Email);
             InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Location, user.Location);
             InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Web, user.Web);
+            InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.Gender, user.Gender);
             InsertIfNotNullOrEmpty(UsersFamilyName, user.Name, UsersFamily.PasswordHash, user.PasswordHash);
         }
 
