@@ -15,6 +15,25 @@
     @Html.ValidationMessage("web")
 </p>
 
+<div class="control-group">
+    <div class="editor-label">
+        @Html.Label("Gender", new { @class = "control-label" })
+    </div>
+    <div class="controls">
+        <div class="editor-field">
+            @Html.DropDownListFor(model => Model.Gender, Model.Genders)
+        </div>
+    </div>
+</div>
+
+@*
+<p>
+    <label for="gender">Gender:</label>
+    @Html.TextBox("gender", Model != null ? Model.Gender : string.Empty)
+    @Html.ValidationMessage("gender")
+</p>
+*@
+
 <p>
     <label for="location">Location:</label>
     @Html.TextBox("location", Model != null ? Model.Location : string.Empty)

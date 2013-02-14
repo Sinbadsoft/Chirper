@@ -28,7 +28,9 @@ Install DataStax community edition and OpsCenter Community Edition
 
 ** Verify cluster name in DataStax OpsCenter Community (top left corner of "Dashboard" view next to Cassandra version number)
 
-This is the cluster name you need to have in web.config
+NOTE: To open DataStax OpsCenter Community Edition, open a web browser other than Internet Explorer and navigate to http://localhost:8888 
+
+This is the cluster configuration you should have in web.config:
 
 <aquilesConfiguration>
     <clusters>
@@ -59,14 +61,23 @@ create column family TimeLine with comparator = UTF8Type;
 create column family UserLine with comparator = UTF8Type;
 
 * Roadmap
+- update more buttons to use bootstrap look and feel
+- clicking Chirper in top nav menu
+- when looking at the user's profile:
+-- show pie chart of % of followers who are {Male, Female, Unspecified}
+-- show pie chart of % of following who are {Male, Female, Unspecified}
+- show post activity by day using GitHub profile grid by day visualization
+- bootstrap the user action navigation menu
 - mimic twitter's layout for showing Tweets
 - stay up to date on Twitter Bootstrap
 - if not already, deploy somewhere publicly
 - add unit tests
 - use an IoC container
+- create a fake Chirp Repository to test different scenarios
 - show assigned permalink to each Chirp
 - allow one user to directly send a private Chirp to another user
-- ReChirp
+- enable ReChirp
+- in the code and Cassandra, change Tweet -> Chirp
 - show chirps using relative time
 	x seconds, 
 	x mins, 
@@ -87,12 +98,11 @@ create column family UserLine with comparator = UTF8Type;
 - user profile storage
 -- store when the user was created (so you can do memeber since..)
 -- store user's age/birthday (prompt them for day, month, year) - month and year are required
--- store user's sex (male or female)
 -- store user's location (geotag)
 - find people
 -- near me (geotag), near a location
 -- find people meeting certain criteria (sex, age group, location)
-- do some analytics using Hadoop
+- do some analytics (perhaps using Hadoop)
 -- find users who share tags in common
 -- most referenced tags
 -- users posting the most chirps (of all time, today, last hour, etc...)
@@ -100,9 +110,12 @@ create column family UserLine with comparator = UTF8Type;
 -- count total chirps
 -- count total chirps per time period (last day, last hour,...)
 -- count chirps with a given tags
--- who tweets more, men or women - per time period (last day, last hour,...)
+-- who chirps more, men or women - per time period (last day, last hour,...)
 
 DONE
 - convert views from Web Forms view engine to Razor view engine (IN PROGRESS)
 - clean up page titles on each Razor view
 - hook up Twitter Bootstrap to this
+- user profile storage
+-- store user's gender (male or female, or unspecified)
+ 
