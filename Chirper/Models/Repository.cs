@@ -252,7 +252,8 @@ namespace JavaGeneration.Chirper.Models
         {
             var items = KeySpace.GetSlice(joinFamily, userName, maxItems).ConvertAll(getValueFromColumn);
             items.Sort(comparison);
-            items.Reverse();
+            if (joinFamily.Equals(UserLineFamilyName) || (joinFamily.Equals(TimeLineFamilyName)))
+                items.Reverse();
             return items;
         }
     }
