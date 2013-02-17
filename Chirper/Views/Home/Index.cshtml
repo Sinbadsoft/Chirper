@@ -1,7 +1,25 @@
-﻿@model IEnumerable<JavaGeneration.Chirper.Models.Tweet>
+﻿@model JavaGeneration.Chirper.ViewModels.TimeLineData 
+
 @{
     ViewBag.Title = Html.Encode(ViewData["Title"]);
 }
+
+@if (!Model.ShowIndividualChrip)
+{
+<div class="well">
+    Chirps: @if (Model.ChirpsCount.HasValue)
+            {
+        @Model.ChirpsCount.Value;
+            }
+            else
+            {
+        @: unknown
+    },
+    Followers:@Model.FollowersCount,
+    Following: @Model.FollowingCount 
+</div>    
+}
+
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -9,7 +27,7 @@
     {
         <p>
             <label for="text">What's happening?</label><br />
-            @Html.TextArea("text", string.Empty, 3, 50, new {@class = "tweet-post"})
+            @Html.TextArea("text", string.Empty, 3, 50, new { @class = "tweet-post" })
         </p>
         <p>
             <input id="tweet" type="submit" value="Chirp" class="btn btn-primary" />
@@ -28,7 +46,7 @@
         <th>Time</th>
         <th>In Reply To</th>
     </tr>
-    @foreach (var item in Model)
+    @foreach (var item in Model.Chirps)
     {
         <tr>
             <td>@Html.ActionLink(item.User, "UserLine", new { id = item.User })</td>
