@@ -18,6 +18,17 @@ namespace JavaGeneration.Chirper.ViewModels
 
         public int FollowersCount { get; set; }
 
+        public bool ShowStats
+        {
+            get
+            {
+                if (IsSummaryVisible)
+                    return false;
+                return true;
+            }
+        }
+
         public bool ShowIndividualChrip { get; set; }
+        public bool IsSummaryVisible { get; set; }
     }
 }
