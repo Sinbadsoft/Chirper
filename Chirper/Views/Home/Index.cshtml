@@ -1,23 +1,26 @@
-﻿@model JavaGeneration.Chirper.ViewModels.TimeLineData 
+﻿@using System.Globalization
+@model JavaGeneration.Chirper.ViewModels.TimeLineData 
 
 @{
     ViewBag.Title = Html.Encode(ViewData["Title"]);
 }
 
-@if (!Model.ShowIndividualChrip)
+@* @if (!Model.IsPublic && !Model.ShowIndividualChrip) *@
+
+@if (Model.IsSummaryVisible)
 {
-<div class="well">
-    Chirps: @if (Model.ChirpsCount.HasValue)
-            {
-        @Model.ChirpsCount.Value;
-            }
-            else
-            {
-        @: unknown
-    },
-    Followers:@Model.FollowersCount,
-    Following: @Model.FollowingCount 
-</div>    
+    <div class="well">
+        Chirps: @if (Model.ChirpsCount.HasValue)
+                {
+                    @Model.ChirpsCount.Value
+                }
+                else
+                {
+                    @: unknown
+                },
+        Followers: @Html.ActionLink(Model.FollowersCount.ToString(CultureInfo.InvariantCulture), "Followers", "Home")
+        Following: @Html.ActionLink(Model.FollowersCount.ToString(CultureInfo.InvariantCulture), "Following", "Home")
+    </div>   
 }
 
 
