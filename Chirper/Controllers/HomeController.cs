@@ -33,7 +33,7 @@ namespace JavaGeneration.Chirper.Controllers
         {
 
             ViewData["Title"] = string.Format("{0} Timeline", User.Identity.Name);
-            var aTimeLineData = CreateTimeLineData(User.Identity.Name);
+            var aTimeLineData = CreateTimeLineData(User.Identity.Name, true);
             return View("Index", aTimeLineData);
         }
 
@@ -50,9 +50,7 @@ namespace JavaGeneration.Chirper.Controllers
             ViewData["User"] = user;
             IList<Tweet> userLine = Repository.GetUserLine(user.Name);
 
-            // TODO: populate following count
-            // TODO: populate followers count
-            var timeLineData = new TimeLineData {Chirps = userLine};
+            var timeLineData = CreateTimeLineData(user.Name, true, userLine);
             return View("Index", timeLineData);
         }
 
@@ -164,19 +162,28 @@ namespace JavaGeneration.Chirper.Controllers
             }
             return Content("Unkown");
         }
-
-        private TimeLineData CreateTimeLineData(string userName)
+		
+        private TimeLineData CreateTimeLineData(string userName, bool isSummaryVisible = false)
         {
             IList<Tweet> timeLine = Repository.GetTimeLine(userName);
+            return CreateTimeLineData(userName, isSummaryVisible, timeLine);
+        }
+
+        private TimeLineData CreateTimeLineData(string userName, bool isSummaryVisible, IList<Tweet> tweets)
+        {
+            IList<Tweet> timeLine = tweets;
             int followersCount = Repository.GetFollowers(userName).Count;
             int followingCount = Repository.GetFollowing(userName).Count;
             var aTimeLineData = new TimeLineData
             {
+                IsSummaryVisible = isSummaryVisible,
                 Chirps = timeLine,
                 FollowersCount = followersCount,
                 FollowingCount = followingCount
             };
             return aTimeLineData;
         }
+
+
     }
 }

@@ -61,8 +61,6 @@ create column family TimeLine with comparator = UTF8Type;
 create column family UserLine with comparator = UTF8Type;
 
 * Roadmap
-- link followers count to followers page on main user page
-- link following count to following page on main user page
 - clicking Chirper in top nav menu brings you back to the main page
 - chirp "it&#39;s me bart" should show as "it's me bart"
 - do infinite scrolling on chirps (I think it's trying to retrieve and show all at once, just get a bunch at a time)
@@ -126,3 +124,5 @@ DONE
 - show # of followers the user has on their main user page
 - show # of people following them on the user has on their main user page
 - show # of chirps user has posted on their main user page
+- link followers count to followers page on main user page
+- link following count to following page on main user page
