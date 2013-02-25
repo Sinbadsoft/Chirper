@@ -47,6 +47,7 @@
         <th>Text</th>
         <th>Location</th>
         <th>Time</th>
+        <th>Relative Time</th>
         <th>In Reply To</th>
     </tr>
     @foreach (var item in Model.Chirps)
@@ -56,6 +57,7 @@
             <td>@Html.Encode(item.Text)</td>
             <td>@Html.Encode(item.Location)</td>
             <td>@Html.Encode(string.Format("{0:g}", item.Time))</td>
+            <td>@item.RelativeTime</td>
             @if (!string.IsNullOrEmpty(item.InReplyToUser) && string.IsNullOrEmpty(item.InReplyToTweet))
             {
                 <td>@Html.ActionLink(item.InReplyToUser, "Tweet", new { tweet = item.Id })</td>
