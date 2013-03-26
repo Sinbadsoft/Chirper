@@ -54,7 +54,7 @@
     {
         <tr>
             <td>@Html.ActionLink(item.User, "UserLine", new { id = item.User })</td>
-            <td>@Html.Encode(item.Text)</td>
+            <td>@item.Text</td>
             <td>@Html.Encode(item.Location)</td>
             <td>@Html.Encode(string.Format("{0:g}", item.Time))</td>
             <td>@item.RelativeTime</td>
