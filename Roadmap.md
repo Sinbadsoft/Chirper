@@ -1,8 +1,4 @@
-- when to show absolute time of a chirp?
-- test for time zone offset and chirp posting times
-
 * Roadmap
-- chirp "it&#39;s me bart" should show as "it's me bart"
 - do infinite scrolling on chirps (I think it's trying to retrieve and show all at once, just get a bunch at a time)
 - when looking at the user's profile:
 -- show pie chart of % of followers who are {Male, Female, Unspecified}
@@ -48,7 +44,7 @@
 - internationalization / localization
 - API
 
-DONE
+* DONE
 - convert views from Web Forms view engine to Razor view engine (IN PROGRESS)
 - clean up page titles on each Razor view
 - hook up Twitter Bootstrap to this
@@ -69,3 +65,8 @@ DONE
 	x years ago)
 - on the timeline, show tweets from latest to earliest (i.e. descending order)
 - clicking Chirper in top nav menu brings you back to the main page
+- chirp "it&#39;s me bart" should show as "it's me bart"
+
+* Open Questions
+- when to show absolute time of a chirp?
+- test for time zone offset and chirp posting times
